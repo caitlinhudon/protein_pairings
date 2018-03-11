@@ -1,0 +1,74 @@
+====================================
+          General Thoughts
+====================================
+
+Data Mappings
+    Food -> Category
+    Category -> Missing Category
+    Missing Category -> Potential Food Supplements
+
+
+Screens
+    Input
+        Rows of foods (for 1 meal)
+        For a new row
+            ScrollPicker
+                Rows
+                    Food
+                Groups
+                    First Letter of Food
+        Button
+            Invokes the function
+    Output
+        Either
+            The one protein missing
+                List the foods that have that protein
+        Or
+            Indicate that all proteins are good
+        Button to clear and restart
+
+
+
+
+====================================
+            PSEUDOCODE
+====================================
+
+protein_combos = {
+    "grains": ("legumes", "dairy"),
+    "legumes": ("nuts", "seeds", "grains"),
+    "nuts": "legumes",
+    "dairy": "grains",
+    "seeds": "legumes"
+}
+
+list_of_foods = {
+    "grains": ["bread", "rice"],
+    "nuts": ["almonds", "walnuts"]
+}
+
+# Returns a (potentially empty) list of Strings
+function() {
+    # Determine the proteins in the meal
+    proteins_consumed = []
+    for input_food in input_foods:
+        proteins_consumed += list_of_foods.keyForObject(input_foods)
+
+    # Determine the superset of neded proteins
+    proteins_needed = []
+    for food in input_food:
+        proteins_needed += protein_combos[food]
+
+    # Filter out the proteins in the meal
+    for needed_protein in proteins_needed:
+        if needed_protein in proteins_consumed:
+            proteins_needed -= needed_protein
+
+    # Construct lists of foods for each needed protein
+    foods_to_eat = []
+    for protein_needed in proteins_needed:
+        foods_to_eat += list_of_foods[protein]
+
+    return foods_to_eat
+}
+
